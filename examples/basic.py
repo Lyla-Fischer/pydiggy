@@ -15,17 +15,18 @@ from pydiggy import (
     upsert,
 )
 
-import seperate_model_file
+from seperate_model_file import Region
+
 
 class City(Node):
-    region: seperate_model_file.Region
+    region: Region
 
 
 if __name__ == "__main__":
-    por = seperate_model_file.Region(name="Portugal")
-    spa = seperate_model_file.Region(name="Spain")
-    gas = seperate_model_file.Region(name="Gascony")
-    mar = seperate_model_file.Region(name="Marseilles")
+    por = Region(name="Portugal")
+    spa = Region(name="Spain")
+    gas = Region(name="Gascony")
+    mar = Region(name="Marseilles")
 
     mad = City(name="Madrid")
 

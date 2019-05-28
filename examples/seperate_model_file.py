@@ -14,9 +14,9 @@ from pydiggy import (
     upsert,
 )
 
-import basic
-
 class Region(Node):
+
+    from basic import City
     area: int = index(types._int)
     population: int = index
     description: str = lang
@@ -25,7 +25,7 @@ class Region(Node):
     abbr: str = (index(types.exact), count, upsert)
     coord: geo
     borders: List[Region] = reverse
-    capitol: basic.City
+    capitol: City
 
     # __upsert__ = area
     # __reverse__ = borders
