@@ -15,36 +15,33 @@ from pydiggy import (
     upsert,
 )
 
+import seperate_model_file
 
-class Region(Node):
-    area: int = index(types._int)
-    population: int = index
-    description: str = lang
-    short_description: str = lang()
-    name: str = index(types.fulltext)
-    abbr: str = (index(types.exact), count, upsert)
-    coord: geo
-    borders: List[Region] = reverse
-
-    # __upsert__ = area
-    # __reverse__ = borders
+class City(Node):
+    region: seperate_model_file.Region
 
 
 if __name__ == "__main__":
-    por = Region(name="Portugal")
-    spa = Region(name="Spain")
-    gas = Region(name="Gascony")
-    mar = Region(name="Marseilles")
+    por = seperate_model_file.Region(name="Portugal")
+    spa = seperate_model_file.Region(name="Spain")
+    gas = seperate_model_file.Region(name="Gascony")
+    mar = seperate_model_file.Region(name="Marseilles")
+
+    mad = City(name="Madrid")
 
     por.borders = [spa]
     spa.borders = [por, gas, mar]
     gas.borders = [Facets(spa, foo="bar", hello="world"), mar]
     mar.borders = [spa, gas]
 
+    mad.region = [spa]
+
     por.stage()
     spa.stage()
     gas.stage()
     mar.stage()
+
+    mad.stage()
 
     print(generate_mutation())
     schema, unknown = Node._generate_schema()
